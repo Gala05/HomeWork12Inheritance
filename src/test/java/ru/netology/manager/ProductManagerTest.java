@@ -15,7 +15,7 @@ public class ProductManagerTest {
     Smartphone prod4 = new Smartphone(4, "name4", 15_000, "China2");
 
     @Test
-    public void AllProductTest() {
+    public void searchByManufacturerTest() {
         ProductRepository repo = new ProductRepository();
         ProductManager manager = new ProductManager(repo);
         manager.add(prod1);
@@ -23,14 +23,42 @@ public class ProductManagerTest {
         manager.add(prod3);
         manager.add(prod4);
 
-        Product[] expected = { prod1, prod2, prod3, prod4 };
-        Product[] actual = manager.AllProducts();
+        Product[] expected = { prod3 };
+        Product[] actual = manager.searchBy("China1");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void searchByAuthorTest() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(prod1);
+        manager.add(prod2);
+        manager.add(prod3);
+        manager.add(prod4);
+
+        Product[] expected = { prod1, prod2 };
+        Product[] actual = manager.searchBy("author");
 
         Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void searchProductTest() {
+    public void searchNegativTest() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(prod1);
+        manager.add(prod2);
+        manager.add(prod3);
+        manager.add(prod4);
+
+        Product[] expected = {};
+        Product[] actual = manager.searchBy("any");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void searchByNameTest() {
         ProductRepository repo = new ProductRepository();
         ProductManager manager = new ProductManager(repo);
         manager.add(prod1);
@@ -43,6 +71,7 @@ public class ProductManagerTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
     public void searchManyProductTest() {
         ProductRepository repo = new ProductRepository();
         ProductManager manager = new ProductManager(repo);
@@ -84,6 +113,21 @@ public class ProductManagerTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
+    public void AllProductTest() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(prod1);
+        manager.add(prod2);
+        manager.add(prod3);
+        manager.add(prod4);
+
+        Product[] expected = { prod1, prod2, prod3, prod4 };
+        Product[] actual = manager.AllProducts();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
     // на геттер
     @Test
     public void getRepositoryTest() {

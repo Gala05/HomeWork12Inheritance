@@ -23,4 +23,15 @@ public class Product {
         return amount;
     }
 
+    public boolean matches(String search) {
+        if (getName().contains(search)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//public boolean matches(Product product, String search) {
+//        return product.getName().contains(search);
+//    }
 }

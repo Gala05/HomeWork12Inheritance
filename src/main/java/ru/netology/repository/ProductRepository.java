@@ -25,7 +25,23 @@ public class ProductRepository {
         products = tmp;
     }
 
+    public Product[] findById(int id) { // возвращает объект по идентификатору
+        Product[] result = new Product[1];
+        for (Product product : products) {
+            if (product.getId() == id) {
+                result = new Product[]{product};
+                return result;
+            }
+        }
+        return null;
+    }
     public void removeById(int id) {
+
+        if (this.findById(id) == null) {
+            throw new NotFoundException(
+                    "Element with id: " + id + " not found"
+            );
+        }
         Product[] tmp = new Product[products.length - 1];
         int index = 0;
         for (Product product : products) {

@@ -50,6 +50,19 @@ public class ProductRepositoryTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void removeNonIdTest(){
+        ProductRepository repo = new ProductRepository();
+        repo.saveProduct(prod1);
+        repo.saveProduct(prod2);
+        repo.saveProduct(prod3);
+        repo.saveProduct(prod4);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            repo.removeById(5);
+        });
+    }
     // тесты на сеттеры, на геттеры
     @Test
     public void getProductTest() {
@@ -73,5 +86,34 @@ public class ProductRepositoryTest {
         Assertions.assertEquals("Phone1", smartphone.getName());
         Assertions.assertEquals(10_000, smartphone.getAmount());
         Assertions.assertEquals("Manufacturer1", smartphone.getManufacturer());
+    }
+    @Test
+    public void findByIdNegativTest() {
+        ProductRepository repo = new ProductRepository();
+        repo.saveProduct(prod1);
+        repo.saveProduct(prod2);
+        repo.saveProduct(prod3);
+        repo.saveProduct(prod4);
+
+        Product[] expected = null;
+        Product[] actual = repo.findById(5);
+
+        Assertions.assertArrayEquals(expected, actual);
+
+
+    }
+
+    @Test
+    public void findByIdTest() {
+        ProductRepository repo = new ProductRepository();
+        repo.saveProduct(prod1);
+        repo.saveProduct(prod2);
+        repo.saveProduct(prod3);
+        repo.saveProduct(prod4);
+
+        Product[] expected = {prod4};
+        Product[] actual = repo.findById(4);
+
+        Assertions.assertArrayEquals(expected, actual);
     }
 }

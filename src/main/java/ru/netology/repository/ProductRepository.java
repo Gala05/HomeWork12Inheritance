@@ -1,6 +1,8 @@
 package ru.netology.repository;
 import ru.netology.domain.Product;
 
+import java.util.ArrayList;
+
 public class ProductRepository {
     private Product[] products = new Product[0];
 
@@ -17,12 +19,18 @@ public class ProductRepository {
     }
 
     public void saveProduct(Product newProduct) {
-        Product[] tmp = new Product[products.length + 1];
-        for (int i = 0; i < products.length; i++) {
-            tmp[i] = products[i];
+        if (findById(newProduct.getId()) == null) {
+            Product[] tmp = new Product[products.length + 1];
+            for (int i = 0; i < products.length; i++) {
+                tmp[i] = products[i];
+            }
+            tmp[tmp.length - 1] = newProduct;
+            products = tmp;
+        } else {
+            throw new AlreadyExistsException(
+                    "ID in added product ("+ newProduct.getId() + ") is already exist"
+            );
         }
-        tmp[tmp.length - 1] = newProduct;
-        products = tmp;
     }
 
     public Product[] findById(int id) { // возвращает объект по идентификатору

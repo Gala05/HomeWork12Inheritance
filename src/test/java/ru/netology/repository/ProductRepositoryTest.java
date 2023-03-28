@@ -35,6 +35,16 @@ public class ProductRepositoryTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
+    public void saveProductsTestIdAlreadyExist(){
+        ProductRepository repo = new ProductRepository();
+        repo.saveProduct(prod1);
+        Book prod5 = new Book(1, "Name2", 500, "author2");
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repo.saveProduct(prod5);
+        });
+    }
 
     @Test
     public void removeProductByIdTest(){
